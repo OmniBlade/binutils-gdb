@@ -1,3 +1,11 @@
+OMF Notes:
+Patch derived from applying https://blog.bpj-code.co.za/2011/09/omf-support-for-binutils.html?m=1 to 2.22.
+
+Needs to be configured with --with-mmap.
+
+Following command was needed to build on Ubuntu 20.04 with default GCC:
+make CFLAGS="-Wno-implicit-fallthrough -Wno-unused-value -Wno-cast-function-type -Wno-shift-negative-value -Wno-pointer-compare -Wno-logical-not-parentheses"
+
 		   README for GNU development tools
 
 This directory contains various GNU compilers, assemblers, linkers, 
