@@ -29,6 +29,7 @@
 #define OMF_RECORD_LHEADR      0x82
 #define OMF_RECORD_COMENT      0x88
 #define OMF_RECORD_MODEND      0x8a
+#define OMF_RECORD_MODEND386   0x8b
 #define OMF_RECORD_EXTDEF      0x8c
 #define OMF_RECORD_TYPDEF      0x8e
 #define OMF_RECORD_PUBDEF      0x90
@@ -66,7 +67,7 @@
 #define OMF_COMENT_TRANSLATOR          0x00
 #define OMF_COMENT_INTEL_COPYRIGHT     0x01
 #define OMF_COMENT_DEFAULT_LIBRARY_OBS 0x81
-#define OMF_COMENT_WATCOM2             0x9b
+#define OMF_COMENT_WAT_PROC_MODEL      0x9b
 #define OMF_COMENT_MSDOS_VERSION       0x9c
 #define OMF_COMENT_MEMORY_MODEL        0x9d
 #define OMF_COMENT_DOSSEG              0x9e
@@ -79,7 +80,7 @@
 #define OMF_COMENT_EXT_LNKDIR          0x05
 #define OMF_COMENT_EXT_BIGENDIAN       0x06
 #define OMF_COMENT_EXT_PRECOMP         0x07
-#define OMF_COMENT_WATCOM4             0xa0
+#define OMF_COMENT_DLL_ENTRY           0xa0
 #define OMF_COMENT_NEWEXT              0xa1
 #define OMF_COMENT_PASS_SEPARATOR      0xa2
 #define OMF_COMENT_LIBMOD              0xa3
@@ -88,7 +89,7 @@
 #define OMF_COMENT_NOPAD               0xa7
 #define OMF_COMENT_WKEXT               0xa8
 #define OMF_COMENT_LZEXT               0xa9
-#define OMF_COMENT_UNKWATCOM           0xaa
+#define OMF_COMENT_EASY_OMF            0xaa
 #define OMF_COMENT_RANDOM_COMMENT      0xda
 #define OMF_COMENT_COMPILER            0xdb
 #define OMF_COMENT_DATE                0xdc
@@ -115,7 +116,7 @@
 #define OMF_COMENT_MEMBER_FUNCTION     0xf8
 #define OMF_COMENT_DEBUG_VERSION       0xf9
 #define OMF_COMENT_OPT_FLAGS           0xfa
-#define OMF_COMENT_WATCOM3             0xfe
+#define OMF_COMENT_LINKER_DIRECTIVE    0xfe
 #define OMF_COMENT_COMMAND_LINE        0xff
 #define OMF_COMENT_LIBRARY_COMMENT     0xff
 
@@ -655,10 +656,10 @@ i386omf_read_coment (bfd *abfd, bfd_byte const *p, bfd_size_type reclen)
       case OMF_COMENT_OPT_FLAGS:
 	/* http://webster.cs.ucr.edu/Page_TechDocs/boa.txt has record formats. */
 	break;
-      case OMF_COMENT_UNKWATCOM:
-      case OMF_COMENT_WATCOM2:
-      case OMF_COMENT_WATCOM3:
-      case OMF_COMENT_WATCOM4:
+      case OMF_COMENT_EASY_OMF:
+      case OMF_COMENT_WAT_PROC_MODEL:
+      case OMF_COMENT_LINKER_DIRECTIVE:
+      case OMF_COMENT_DLL_ENTRY:
       case OMF_COMENT_WKEXT:
       case OMF_COMENT_LZEXT:
       case OMF_COMENT_DEFAULT_LIBRARY:
@@ -1470,6 +1471,7 @@ process_record (bfd *abfd,
 	record_ok = i386omf_read_coment (abfd, p, reclen);
 	break;
       case OMF_RECORD_MODEND:
+      case OMF_RECORD_MODEND386:
 	record_ok = i386omf_read_modend (abfd, p, reclen);
 	break;
       case OMF_RECORD_EXTDEF:
